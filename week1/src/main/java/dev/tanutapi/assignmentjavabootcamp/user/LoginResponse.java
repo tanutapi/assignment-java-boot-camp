@@ -11,6 +11,9 @@ public class LoginResponse {
         this.jwtToken = jwtToken;
     }
 
+    public LoginResponse() {
+    }
+
     public LoginResponse(String jwtToken) {
         this.jwtToken = jwtToken;
     }

@@ -24,8 +24,6 @@ public class UserController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) throws Exception {
         if (loginRequest.getUsername() != null && loginRequest.getPassword() != null) {
-            System.out.println(loginRequest.getUsername());
-            System.out.println(loginRequest.getPassword());
             Optional<User> user = userService.verifyUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
             if (user.isPresent()) {
                 String jwt = userService.generateJsonWebToken(user.get());
