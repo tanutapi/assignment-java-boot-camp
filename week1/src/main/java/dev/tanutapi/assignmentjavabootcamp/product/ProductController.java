@@ -20,7 +20,7 @@ public class ProductController {
     @Autowired ProductService productService;
 
     @GetMapping("/products")
-    List<ProductShortResponse> findProduct(@RequestParam(required = false) String q) {
+    List<ProductShortResponse> findProducts(@RequestParam(required = false) String q) {
         try {
             return productService.getProductShortResponseList(q);
         } catch (Exception e) {
