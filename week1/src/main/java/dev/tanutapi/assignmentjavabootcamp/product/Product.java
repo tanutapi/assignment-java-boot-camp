@@ -31,14 +31,12 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String desc, String brand, float rating, int ratingCnt, List<ProductPicture> productPictures, List<ProductVariant> productVariants) {
+    public Product(String title, String desc, String brand, float rating, int ratingCnt) {
         this.title = title;
         this.desc = desc;
         this.brand = brand;
         this.rating = rating;
         this.ratingCnt = ratingCnt;
-        this.productPictures = productPictures;
-        this.productVariants = productVariants;
     }
 
     public int getId() {
