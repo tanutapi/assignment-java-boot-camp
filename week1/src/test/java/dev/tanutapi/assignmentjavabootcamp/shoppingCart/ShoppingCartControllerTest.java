@@ -107,7 +107,9 @@ class ShoppingCartControllerTest {
         assertNotNull(shoppingCartResponse);
         assertEquals(shoppingCartResponse.getUserId(), userId);
         assert(!shoppingCartResponse.getProducts().isEmpty());
+        // Added product should be in the shopping cart
         List<ShoppingCartProductResponse> shoppingCartProductResponseList = shoppingCartResponse.getProducts().stream().filter(shoppingCartProductResponse -> shoppingCartProductResponse.getProductId() == productFullResponse.getProductId()).collect(Collectors.toList());
+        // Shopping cart should not empty
         assert(!shoppingCartProductResponseList.isEmpty());
     }
 
@@ -148,7 +150,9 @@ class ShoppingCartControllerTest {
         assertNotNull(shoppingCartResponse);
         assertEquals(shoppingCartResponse.getUserId(), userId);
         assert(!shoppingCartResponse.getProducts().isEmpty());
+        // Added product should be in the shopping cart
         List<ShoppingCartProductResponse> shoppingCartProductResponseList = shoppingCartResponse.getProducts().stream().filter(shoppingCartProductResponse -> shoppingCartProductResponse.getProductId() == productFullResponse.getProductId()).collect(Collectors.toList());
+        // Shopping cart should not empty
         assert(!shoppingCartProductResponseList.isEmpty());
 
         // Remove from shopping cart
@@ -163,6 +167,7 @@ class ShoppingCartControllerTest {
         shoppingCartResponse = response.getBody();
         assertNotNull(shoppingCartResponse);
         assertEquals(shoppingCartResponse.getUserId(), userId);
+        // After remove the product, shopping cart should be empty
         assert(shoppingCartResponse.getProducts().isEmpty());
     }
 }
