@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Entity
 public class ShoppingCart {
     @Id
+    @GeneratedValue
     private int id;
 
     @OneToOne

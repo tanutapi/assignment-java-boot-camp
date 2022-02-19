@@ -3,15 +3,13 @@ package dev.tanutapi.assignmentjavabootcamp.product;
 import dev.tanutapi.assignmentjavabootcamp.productPicture.ProductPicture;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariant;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Product {
     @Id
+    @GeneratedValue
     private int id;
 
     private String title;

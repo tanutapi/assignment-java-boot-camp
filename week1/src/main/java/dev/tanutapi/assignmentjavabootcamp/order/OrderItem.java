@@ -4,15 +4,13 @@ import dev.tanutapi.assignmentjavabootcamp.invoice.Invoice;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariant;
 import dev.tanutapi.assignmentjavabootcamp.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 public class OrderItem {
     @Id
+    @GeneratedValue
     private int id;
 
     @OneToOne

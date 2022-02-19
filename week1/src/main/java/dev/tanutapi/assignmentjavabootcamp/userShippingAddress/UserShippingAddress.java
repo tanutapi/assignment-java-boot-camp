@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 public class UserShippingAddress {
     @Id
+    @GeneratedValue
     private int id;
 
     @OneToOne
