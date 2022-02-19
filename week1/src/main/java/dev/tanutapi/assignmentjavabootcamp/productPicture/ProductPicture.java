@@ -16,6 +16,14 @@ public class ProductPicture {
 
     private String url;
 
+    public ProductPicture() {
+    }
+
+    public ProductPicture(Product product, String url) {
+        this.product = product;
+        this.url = url;
+    }
+
     public int getId() {
         return id;
     }

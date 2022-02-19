@@ -20,6 +20,16 @@ public class ShoppingCart {
     @JoinColumn(name = "product_variant_id")
     private ProductVariant productVariant;
 
+    public ShoppingCart() {
+    }
+
+    public ShoppingCart(User user, ProductVariant productVariant, int amount, BigDecimal totalPrice) {
+        this.user = user;
+        this.productVariant = productVariant;
+        this.amount = amount;
+        this.totalPrice = totalPrice;
+    }
+
     private int amount;
 
     private BigDecimal totalPrice;

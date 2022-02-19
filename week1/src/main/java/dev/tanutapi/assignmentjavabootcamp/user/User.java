@@ -34,6 +34,9 @@ public class User {
         this.userShippingAddress = userShippingAddress;
     }
 
+    public User() {
+    }
+
     public int getId() {
         return id;
     }

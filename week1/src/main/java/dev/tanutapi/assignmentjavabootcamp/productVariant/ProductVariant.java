@@ -19,6 +19,15 @@ public class ProductVariant {
 
     private BigDecimal price;
 
+    public ProductVariant() {
+    }
+
+    public ProductVariant(Product product, String name, BigDecimal price) {
+        this.product = product;
+        this.name = name;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }
