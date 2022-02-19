@@ -31,7 +31,7 @@ class UserControllerTest {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(new LoginRequest(), headers);
 
         ResponseEntity<LoginResponse> result = testRestTemplate.postForEntity("/login", httpEntity, LoginResponse.class);
-        assertEquals(result.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 
     @Test
@@ -45,7 +45,7 @@ class UserControllerTest {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(new LoginRequest(username, password), headers);
 
         ResponseEntity<LoginResponse> result = testRestTemplate.postForEntity("/login", httpEntity, LoginResponse.class);
-        assertEquals(result.getStatusCode(), HttpStatus.NOT_FOUND);
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 
     @Test
@@ -59,7 +59,7 @@ class UserControllerTest {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(new LoginRequest(username, password), headers);
 
         ResponseEntity<LoginResponse> result = testRestTemplate.postForEntity("/login", httpEntity, LoginResponse.class);
-        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
         String token = Objects.requireNonNull(result.getBody()).getJwtToken();
         assert(token.length() > 0);
         assertDoesNotThrow(new Executable() {

@@ -25,7 +25,7 @@ class ProductControllerTest {
     @DisplayName("It should return all product in the database if no keyword set")
     void findAllProducts() {
         ResponseEntity<ProductShortResponse[]> response = testRestTemplate.getForEntity("/products", ProductShortResponse[].class);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assert(Objects.requireNonNull(response.getBody()).length > 0);
     }
 
@@ -35,7 +35,7 @@ class ProductControllerTest {
         Map<String, String> params = new HashMap<>();
         params.put("q", "PK");
         ResponseEntity<ProductShortResponse[]> response = testRestTemplate.getForEntity("/products?q={q}", ProductShortResponse[].class, params);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assert(Objects.requireNonNull(response.getBody()).length > 0);
         List<ProductShortResponse> productShortResponses = List.of(Objects.requireNonNull(response.getBody()));
         productShortResponses.forEach(productShortResponse -> {
@@ -50,7 +50,7 @@ class ProductControllerTest {
         Map<String, String> params = new HashMap<>();
         params.put("q", "PKXXXXXXXX");
         ResponseEntity<ProductShortResponse[]> response = testRestTemplate.getForEntity("/products?q={q}", ProductShortResponse[].class, params);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assert(Objects.requireNonNull(response.getBody()).length == 0);
     }
 
@@ -66,7 +66,7 @@ class ProductControllerTest {
         Map<String, String> params = new HashMap<>();
         params.put("id", "" + productShortResponse.getProductId());
         ResponseEntity<ProductFullResponse> fullResponse = testRestTemplate.getForEntity("/products/{id}", ProductFullResponse.class, params);
-        assertEquals(fullResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, fullResponse.getStatusCode());
         assertNotNull(fullResponse.getBody());
         if (fullResponse.getBody() != null) {
             ProductFullResponse productFullResponse = fullResponse.getBody();
