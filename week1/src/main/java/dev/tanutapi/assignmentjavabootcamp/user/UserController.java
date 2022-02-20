@@ -2,9 +2,7 @@ package dev.tanutapi.assignmentjavabootcamp.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.resource.HttpResource;
 
@@ -33,5 +31,10 @@ public class UserController {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/users/{userId}")
+    public UserResponse getUser(@PathVariable Integer userId) {
+        return userService.getUser(userId);
     }
 }

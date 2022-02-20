@@ -1,7 +1,10 @@
 package dev.tanutapi.assignmentjavabootcamp.user;
 
+import dev.tanutapi.assignmentjavabootcamp.userShippingAddress.UserShippingAddressResponse;
+import dev.tanutapi.assignmentjavabootcamp.userShippingAddress.UserShippingAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
@@ -9,15 +12,18 @@ import javax.crypto.spec.PBEKeySpec;
 import java.security.spec.KeySpec;
 import java.util.*;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserShippingAddressService userShippingAddressService;
 
     @Value("${jwtTokenValidity}")
     private long jwtTokenValidity;
@@ -76,5 +82,24 @@ public class UserService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidity * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+    }
+
+    public UserResponse getUser(Integer userId) {
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found for userId");
+        }
+        User user = optUser.get();
+        UserResponse response = new UserResponse();
+        response.setUserId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        try {
+            UserShippingAddressResponse shippingAddress = userShippingAddressService.getUserShippingAddress(userId);
+            response.setShippingAddress(shippingAddress);
+        } catch (Exception ignore) {
+        }
+        return response;
     }
 }

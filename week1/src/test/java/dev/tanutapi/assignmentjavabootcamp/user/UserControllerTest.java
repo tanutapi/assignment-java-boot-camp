@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,5 +72,28 @@ class UserControllerTest {
         });
         Jws<Claims> jwt = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
         assertEquals(jwt.getBody().get("username"), username);
+    }
+
+    @Test
+    @DisplayName("Get user info from userId, NOT FOUND")
+    void failCaseGetUserInfoWithNonExistingUserId() {
+        int userId = 9999;
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "" + userId);
+        ResponseEntity<UserResponse> result = testRestTemplate.getForEntity("/users/{userId}", UserResponse.class, params);
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Get user info from userId, return an user information")
+    void successCaseGetUserInfoWithNonExistingUserId() {
+        int userId = 1;
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", "" + userId);
+        ResponseEntity<UserResponse> result = testRestTemplate.getForEntity("/users/{userId}", UserResponse.class, params);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertNotNull(result.getBody());
+        UserResponse userResponse = result.getBody();
+        assertEquals(userId, userResponse.getUserId());
     }
 }
