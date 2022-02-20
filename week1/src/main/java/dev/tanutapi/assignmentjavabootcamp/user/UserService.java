@@ -51,25 +51,29 @@ public class UserService {
         return Optional.empty();
     }
 
-    public User createUser(String username, String password, String firstName, String lastName) throws Exception {
+    public User createUser(String username, String password, String firstName, String lastName) {
         User user = new User();
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
-        byte[] salt = new byte[16];
-        Random random = new Random();
-        random.nextBytes(salt);
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = f.generateSecret(spec).getEncoded();
-        Base64.Encoder enc = Base64.getEncoder();
-        user.setSalt(enc.encodeToString(salt));
-        user.setHashedPassword(enc.encodeToString(hash));
+        try {
+            byte[] salt = new byte[16];
+            Random random = new Random();
+            random.nextBytes(salt);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] hash = f.generateSecret(spec).getEncoded();
+            Base64.Encoder enc = Base64.getEncoder();
+            user.setSalt(enc.encodeToString(salt));
+            user.setHashedPassword(enc.encodeToString(hash));
 
-        user = userRepository.save(user);
+            user = userRepository.save(user);
 
-        return user;
+            return user;
+        } catch (Exception e) {
+            throw new CreateUserException(e.getMessage());
+        }
     }
 
     public String generateJsonWebToken(User user) {
@@ -87,7 +91,7 @@ public class UserService {
     public UserResponse getUser(Integer userId) {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found for userId");
+            throw new UserNotFoundException("No user found for specified userId");
         }
         User user = optUser.get();
         UserResponse response = new UserResponse();

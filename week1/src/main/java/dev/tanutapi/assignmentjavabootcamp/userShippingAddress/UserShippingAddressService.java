@@ -1,11 +1,11 @@
 package dev.tanutapi.assignmentjavabootcamp.userShippingAddress;
 
 import dev.tanutapi.assignmentjavabootcamp.user.User;
+import dev.tanutapi.assignmentjavabootcamp.user.UserNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class UserShippingAddressService {
     public UserShippingAddressResponse getUserShippingAddress(Integer userId) {
         Optional<UserShippingAddress> optUserShippingAddress = userShippingAddressRepository.findByUserId(userId);
         if (optUserShippingAddress.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ShippingAddressNotFoundException("Shipping address was not found for specified userId");
         }
         UserShippingAddress userShippingAddress = optUserShippingAddress.get();
         UserShippingAddressResponse response = new UserShippingAddressResponse();
@@ -38,7 +38,7 @@ public class UserShippingAddressService {
     public UserShippingAddressResponse setUserShippingAddress(Integer userId, UserShippingAddressRequest userShippingAddressRequest) {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException("User was not found for specified userId");
         }
         User user = optUser.get();
 

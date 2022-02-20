@@ -7,7 +7,7 @@ import dev.tanutapi.assignmentjavabootcamp.productPicture.ProductPicture;
 import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCart;
 import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCartEmptyException;
 import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCartService;
-import dev.tanutapi.assignmentjavabootcamp.user.UnknownUserException;
+import dev.tanutapi.assignmentjavabootcamp.user.UserNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.user.User;
 import dev.tanutapi.assignmentjavabootcamp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class InvoiceService {
 
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new UnknownUserException("User was not found for specified userId");
+            throw new UserNotFoundException("User was not found for specified userId");
         }
         User user = optUser.get();
 

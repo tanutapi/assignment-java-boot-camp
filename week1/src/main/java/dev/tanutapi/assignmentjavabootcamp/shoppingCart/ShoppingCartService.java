@@ -1,17 +1,17 @@
 package dev.tanutapi.assignmentjavabootcamp.shoppingCart;
 
 import dev.tanutapi.assignmentjavabootcamp.product.Product;
+import dev.tanutapi.assignmentjavabootcamp.product.ProductNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.product.ProductRepository;
+import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariantNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.productPicture.ProductPicture;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariant;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariantRepository;
+import dev.tanutapi.assignmentjavabootcamp.user.UserNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.user.User;
 import dev.tanutapi.assignmentjavabootcamp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -37,7 +37,7 @@ public class ShoppingCartService {
 
     public ShoppingCartResponse getShoppingCartResponse(Integer userId) {
         if (userRepository.findById(userId).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "userId was not found");
+            throw new UserNotFoundException("User was not found for specified userId");
         }
         List<ShoppingCartProductResponse> productResponseList = new ArrayList<>();
         shoppingCartRepository.findByUserId(userId).forEach(shoppingCart -> {
@@ -67,13 +67,12 @@ public class ShoppingCartService {
     public void addProductToShoppingCart(Integer userId, Integer productId, String variant, Integer amount) {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "userId was not found");
+            throw new UserNotFoundException("User was not found for specified userId");
         }
 
         Optional<Product> optProduct = productRepository.findById(productId);
         if (optProduct.isEmpty()) {
-            System.out.println("Product was not found!");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product was not found");
+            throw new ProductNotFoundException("Product was not found for specified productId");
         }
 
         User user = optUser.get();
@@ -82,7 +81,7 @@ public class ShoppingCartService {
         List<ProductVariant> variants = product.getProductVariants().stream().filter(productVariant -> productVariant.getName().equals(variant)).collect(Collectors.toList());
         if (variants.isEmpty()) {
             System.out.println("Product's variant was not found!");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product's variant was not found");
+            throw new ProductVariantNotFoundException("Product variant was not found for specified variant name");
         }
 
         ShoppingCart shoppingCart = new ShoppingCart();
@@ -97,12 +96,12 @@ public class ShoppingCartService {
     public void remove(Integer userId, Integer productId, String variantName) {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "userId was not found");
+            throw new UserNotFoundException("User was not found for specified userId");
         }
 
         Optional<ProductVariant> optVariant = productVariantRepository.findByProductIdAndName(productId, variantName);
         if (optVariant.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product variant was not found");
+            throw new ProductNotFoundException("Product was not found for specified productId");
         }
 
         ProductVariant variant = optVariant.get();
