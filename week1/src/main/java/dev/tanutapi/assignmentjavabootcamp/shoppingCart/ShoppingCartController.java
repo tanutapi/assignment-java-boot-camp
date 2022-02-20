@@ -15,7 +15,7 @@ public class ShoppingCartController {
     ShoppingCartResponse getShoppingCart(@PathVariable Integer userId) {
         // TODO verify JWT. Only return the shopping cart of the JWT's subject!
         if (userId != null) {
-            return shoppingCartService.getShoppingCart(userId);
+            return shoppingCartService.getShoppingCartResponse(userId);
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
@@ -26,7 +26,7 @@ public class ShoppingCartController {
         if (addToCartRequest.getProductId() != null && addToCartRequest.getVariant() != null && addToCartRequest.getAmount() != null) {
             if (userId != null) {
                 shoppingCartService.addProductToShoppingCart(userId, addToCartRequest.getProductId(), addToCartRequest.getVariant(), addToCartRequest.getAmount());
-                return shoppingCartService.getShoppingCart(userId);
+                return shoppingCartService.getShoppingCartResponse(userId);
             }
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -37,7 +37,7 @@ public class ShoppingCartController {
         // TODO verify JWT. Only modify the shopping cart of the JWT's subject!
         if (userId != null && productId != null && variantName != null) {
             shoppingCartService.remove(userId, productId, variantName);
-            return shoppingCartService.getShoppingCart(userId);
+            return shoppingCartService.getShoppingCartResponse(userId);
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }

@@ -35,7 +35,7 @@ public class ShoppingCartService {
     @Autowired
     ProductVariantRepository productVariantRepository;
 
-    ShoppingCartResponse getShoppingCart(Integer userId) {
+    public ShoppingCartResponse getShoppingCartResponse(Integer userId) {
         if (userRepository.findById(userId).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "userId was not found");
         }
@@ -57,6 +57,10 @@ public class ShoppingCartService {
             productResponseList.add(productResponse);
         });
         return new ShoppingCartResponse(userId, productResponseList);
+    }
+
+    public List<ShoppingCart> getShoppingCart(Integer userId) {
+        return shoppingCartRepository.findByUserId(userId);
     }
 
     // TODO: Need fix! product with the same variant should be added with its existing amount

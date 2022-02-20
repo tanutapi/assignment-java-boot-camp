@@ -1,4 +1,4 @@
-package dev.tanutapi.assignmentjavabootcamp.order;
+package dev.tanutapi.assignmentjavabootcamp.orderItem;
 
 import dev.tanutapi.assignmentjavabootcamp.invoice.Invoice;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariant;
@@ -28,6 +28,10 @@ public class OrderItem {
     @OneToOne
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
 
     public Invoice getInvoice() {
         return invoice;

@@ -25,7 +25,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ProductPicture> productPictures;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<ProductVariant> productVariants;
 
     public Product() {

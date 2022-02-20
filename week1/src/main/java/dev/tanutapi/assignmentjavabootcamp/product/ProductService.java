@@ -44,6 +44,10 @@ public class ProductService {
         throw new RuntimeException();
     }
 
+    public List<Product> findProducts(String q) {
+        return productRepository.findByTitleContaining(q);
+    }
+
     public List<ProductShortResponse> getProductShortResponseList(String q) {
         ArrayList<ProductShortResponse> productList = new ArrayList<>();
         List<Product> result;
