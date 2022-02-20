@@ -2,14 +2,12 @@ package dev.tanutapi.assignmentjavabootcamp.productPicture;
 
 import dev.tanutapi.assignmentjavabootcamp.product.Product;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class ProductPicture {
     @Id
+    @GeneratedValue
     private int id;
 
     @ManyToOne
@@ -17,6 +15,14 @@ public class ProductPicture {
     private Product product;
 
     private String url;
+
+    public ProductPicture() {
+    }
+
+    public ProductPicture(Product product, String url) {
+        this.product = product;
+        this.url = url;
+    }
 
     public int getId() {
         return id;

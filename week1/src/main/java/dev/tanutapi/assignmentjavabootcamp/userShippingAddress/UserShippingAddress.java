@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 public class UserShippingAddress {
     @Id
+    @GeneratedValue
     private int id;
 
     @OneToOne
@@ -24,6 +25,19 @@ public class UserShippingAddress {
     private String postCode;
 
     private String telephone;
+
+    public UserShippingAddress() {
+    }
+
+    public UserShippingAddress(User user, String name, String address, String district, String province, String postCode, String telephone) {
+        this.user = user;
+        this.name = name;
+        this.address = address;
+        this.district = district;
+        this.province = province;
+        this.postCode = postCode;
+        this.telephone = telephone;
+    }
 
     public int getId() {
         return id;

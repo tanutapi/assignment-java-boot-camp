@@ -3,15 +3,13 @@ package dev.tanutapi.assignmentjavabootcamp.product;
 import dev.tanutapi.assignmentjavabootcamp.productPicture.ProductPicture;
 import dev.tanutapi.assignmentjavabootcamp.productVariant.ProductVariant;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Product {
     @Id
+    @GeneratedValue
     private int id;
 
     private String title;
@@ -27,8 +25,19 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ProductPicture> productPictures;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<ProductVariant> productVariants;
+
+    public Product() {
+    }
+
+    public Product(String title, String desc, String brand, float rating, int ratingCnt) {
+        this.title = title;
+        this.desc = desc;
+        this.brand = brand;
+        this.rating = rating;
+        this.ratingCnt = ratingCnt;
+    }
 
     public int getId() {
         return id;

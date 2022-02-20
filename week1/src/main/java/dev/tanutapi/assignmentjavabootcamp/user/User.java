@@ -3,15 +3,19 @@ package dev.tanutapi.assignmentjavabootcamp.user;
 import dev.tanutapi.assignmentjavabootcamp.userShippingAddress.UserShippingAddress;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
 public class User {
     @Id
+    @GeneratedValue
     private int id;
 
     private String username;
+
+    private String salt;
 
     private String hashedPassword;
 
@@ -30,6 +34,9 @@ public class User {
         this.userShippingAddress = userShippingAddress;
     }
 
+    public User() {
+    }
+
     public int getId() {
         return id;
     }
@@ -44,6 +51,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getHashedPassword() {

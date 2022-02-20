@@ -2,15 +2,13 @@ package dev.tanutapi.assignmentjavabootcamp.productVariant;
 
 import dev.tanutapi.assignmentjavabootcamp.product.Product;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 public class ProductVariant {
     @Id
+    @GeneratedValue
     private int id;
 
     @ManyToOne
@@ -20,6 +18,15 @@ public class ProductVariant {
     private String name;
 
     private BigDecimal price;
+
+    public ProductVariant() {
+    }
+
+    public ProductVariant(Product product, String name, BigDecimal price) {
+        this.product = product;
+        this.name = name;
+        this.price = price;
+    }
 
     public int getId() {
         return id;
