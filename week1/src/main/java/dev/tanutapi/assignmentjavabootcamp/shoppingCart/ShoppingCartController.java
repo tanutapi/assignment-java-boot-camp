@@ -22,7 +22,7 @@ public class ShoppingCartController {
 
     @PostMapping("/shoppingcarts/{userId}")
     ShoppingCartResponse addProductIntoShoppingCart(@PathVariable Integer userId, @RequestBody AddToCartRequest addToCartRequest) {
-        // TODO verify JWT. Only return the shopping cart of the JWT's subject!
+        // TODO verify JWT. Only modify the shopping cart of the JWT's subject!
         if (addToCartRequest.getProductId() != null && addToCartRequest.getVariant() != null && addToCartRequest.getAmount() != null) {
             if (userId != null) {
                 shoppingCartService.addProductToShoppingCart(userId, addToCartRequest.getProductId(), addToCartRequest.getVariant(), addToCartRequest.getAmount());
@@ -34,7 +34,7 @@ public class ShoppingCartController {
 
     @DeleteMapping("/shoppingcarts/{userId}/{productId}/{variantName}")
     ShoppingCartResponse removeProductFromShoppingCart(@PathVariable Integer userId, @PathVariable Integer productId, @PathVariable String variantName) {
-        // TODO verify JWT. Only return the shopping cart of the JWT's subject!
+        // TODO verify JWT. Only modify the shopping cart of the JWT's subject!
         if (userId != null && productId != null && variantName != null) {
             shoppingCartService.remove(userId, productId, variantName);
             return shoppingCartService.getShoppingCart(userId);
