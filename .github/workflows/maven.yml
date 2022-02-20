@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Test with Maven
-      run: ./week1/./mvnw test
+      run: cd week1 && ./mvnw test
