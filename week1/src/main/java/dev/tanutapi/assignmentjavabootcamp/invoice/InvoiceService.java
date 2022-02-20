@@ -5,13 +5,13 @@ import dev.tanutapi.assignmentjavabootcamp.orderItem.OrderItemRepository;
 import dev.tanutapi.assignmentjavabootcamp.orderItem.OrderItemResponse;
 import dev.tanutapi.assignmentjavabootcamp.productPicture.ProductPicture;
 import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCart;
+import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCartEmptyException;
 import dev.tanutapi.assignmentjavabootcamp.shoppingCart.ShoppingCartService;
+import dev.tanutapi.assignmentjavabootcamp.user.UserNotFoundException;
 import dev.tanutapi.assignmentjavabootcamp.user.User;
 import dev.tanutapi.assignmentjavabootcamp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,18 +38,18 @@ public class InvoiceService {
         // Check for valid payment method ('cs', 'pp', 'bt')
         // cs - pay at counter service, pp - prompt pay, bt - bank transfer
         if (!method.equals("cs") && !method.equals("pp") && !method.equals("bt")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new InvalidPaymentMethodException("Only cs, pp, and bt are supported");
         }
 
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found");
+            throw new UserNotFoundException("User was not found for specified userId");
         }
         User user = optUser.get();
 
         List<ShoppingCart> shoppingCarts = shoppingCartService.getShoppingCart(userId);
         if (shoppingCarts.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item in the shopping cart");
+            throw new ShoppingCartEmptyException("No item in the user's shopping cart");
         }
 
         Invoice invoice = new Invoice();

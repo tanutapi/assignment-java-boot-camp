@@ -41,7 +41,7 @@ public class ProductService {
 
             return productFullResponse;
         }
-        throw new RuntimeException();
+        throw new ProductNotFoundException("Your specified productId was not found");
     }
 
     public List<Product> findProducts(String q) {
