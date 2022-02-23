@@ -11,3 +11,16 @@
 * https://www.baeldung.com/ 
 * https://start.spring.io/
 * [Git commit message](https://www.conventionalcommits.org/en/v1.0.0/)
+
+
+
+
+
+
+```mermaid
+sequenceDiagram
+    actor Alice
+    actor Bob
+    Alice->>Bob: Hi Bob
+    Bob->>Alice: Hi Alice
+```
